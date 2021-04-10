@@ -11,7 +11,7 @@ module.exports = {
 	entry: "./src/index.js",
 	output: {
 		path: path.resolve(__dirname, "dist"), //resolve return the absolute path in the OS
-		filename: "main.js",
+		filename: "[name].[contenthash].js",
 		assetModuleFilename: "assets/images/[hash][ext][query]",
 	},
 	resolve: {
@@ -51,7 +51,7 @@ module.exports = {
 						mimetype: "application/font-woff", //specify the MIME type which the file will be aligned.
 						//MIME = Multipurpose Internet Mail Extensions
 						//it is the internet standard way to send info
-						name: "[name].[ext]",
+						name: "[name].[contenthash].[ext]",
 						outputPath: "./assets/fonts/",
 						publicPath: "./assets/fonts/",
 						esModule: false,
@@ -66,7 +66,9 @@ module.exports = {
 			template: "./public/index.html",
 			filename: "./index.html",
 		}),
-		new MiniCssExtractPlugin(),
+		new MiniCssExtractPlugin({
+			filename: "assets/[name].[contenthash].css",
+		}),
 		new CopyPlugin({
 			patterns: [
 				{
@@ -76,4 +78,8 @@ module.exports = {
 			],
 		}),
 	],
+	optimization: {
+		minimize: true,
+		minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+	},
 }
