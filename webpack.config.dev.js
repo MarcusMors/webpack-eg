@@ -13,6 +13,8 @@ module.exports = {
 		filename: "[name].[contenthash].js",
 		assetModuleFilename: "assets/images/[hash][ext][query]",
 	},
+	mode: "development",
+	watch: true,
 	resolve: {
 		extensions: ["js"], //the files that will be read
 		alias: {
