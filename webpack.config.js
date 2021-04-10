@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
+const DotEnv = require("dotenv-webpack")
 
 module.exports = {
 	entry: "./src/index.js",
@@ -16,6 +17,12 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ["js"], //the files that will be read
+		alias: {
+			"@utils": path.resolve(__dirname, "src/utils/"),
+			"@templates": path.resolve(__dirname, "src/templates/"),
+			"@styles": path.resolve(__dirname, "src/styles/"),
+			"@images": path.resolve(__dirname, "src/assets/images/"),
+		},
 	},
 	module: {
 		rules: [
@@ -53,7 +60,7 @@ module.exports = {
 						//it is the internet standard way to send info
 						name: "[name].[contenthash].[ext]",
 						outputPath: "./assets/fonts/",
-						publicPath: "./assets/fonts/",
+						publicPath: "../assets/fonts/", //css is now in assets
 						esModule: false,
 					},
 				},
@@ -77,6 +84,7 @@ module.exports = {
 				},
 			],
 		}),
+		new DotEnv(),
 	],
 	optimization: {
 		minimize: true,
